@@ -17,7 +17,7 @@ public class SpringCloudGcpPubSubExampleApplication {
         return new Queue("myQueue", true);
     }
 
-    @RabbitListener(queuesToDeclare = @org.springframework.amqp.rabbit.annotation.Queue(name = "myQueue", durable = "true"))
+    @RabbitListener(queues = "myQueue")
     public void receiveMessage(Object message) {
         System.out.println("Received message: " + message);
     }

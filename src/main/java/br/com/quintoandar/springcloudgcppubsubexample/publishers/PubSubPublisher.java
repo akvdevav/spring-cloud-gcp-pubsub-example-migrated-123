@@ -10,7 +10,7 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-public abstract class PubSubPublisher {
+abstract class PubSubPublisher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PubSubPublisher.class);
 

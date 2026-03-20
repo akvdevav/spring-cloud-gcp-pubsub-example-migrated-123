@@ -5,7 +5,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class PubSubConsumer {
+public class PubSubConsumer {
 
     protected final RabbitTemplate rabbitTemplate;
 
@@ -16,14 +16,18 @@ public abstract class PubSubConsumer {
     /**
      * Name of an existing queue.
      */
-    public abstract String queueName();
+    public String queueName() {
+        return "${queue.name}";
+    }
 
     /**
      * The actual consumer logic.
      *
      * @param message The message received from the queue.
      */
-    protected abstract void consume(String message);
+    protected void consume(String message) {
+        // Default implementation - can be overridden
+    }
 
     /**
      * Implementation of a {@link org.springframework.amqp.core.MessageListener} which only calls the
