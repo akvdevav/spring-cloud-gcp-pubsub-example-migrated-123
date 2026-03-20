@@ -1,8 +1,8 @@
 package br.com.quintoandar.springcloudgcppubsubexample.controllers;
 
-import br.com.quintoandar.springcloudgcppubsubexample.publishers.HelloPubSubPublisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,17 +15,17 @@ public class HelloPubSubController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloPubSubController.class);
 
-    private final HelloPubSubPublisher publisher;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public HelloPubSubController(HelloPubSubPublisher publisher) {
-        this.publisher = publisher;
+    public HelloPubSubController(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @PostMapping("/publish")
     public void publish(@RequestBody String message) {
         LOGGER.info("received a POST at /hello/publish with message=[{}]", message);
-        publisher.publish(message);
+        rabbitTemplate.convertAndSend("hello.exchange", "hello.routing.key", message);
     }
 
 }

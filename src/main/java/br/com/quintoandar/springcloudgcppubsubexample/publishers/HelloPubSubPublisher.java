@@ -1,20 +1,18 @@
 package br.com.quintoandar.springcloudgcppubsubexample.publishers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gcp.pubsub.core.PubSubTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class HelloPubSubPublisher extends PubSubPublisher {
+public class HelloPubSubPublisher {
 
-    @Autowired
-    public HelloPubSubPublisher(PubSubTemplate pubSubTemplate) {
-        super(pubSubTemplate);
+    private final RabbitTemplate rabbitTemplate;
+
+    public HelloPubSubPublisher(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Override
-    protected String topic() {
-        return "hello-pubsub";
+    public void publish(Object message) {
+        rabbitTemplate.convertAndSend("hello-pubsub", message);
     }
-
 }
